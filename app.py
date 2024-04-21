@@ -84,18 +84,19 @@ def analyze_image():
         else:
             return "Error: Unable to extract ingredients"
 
+
 @app.route("/ingredent2recipe", methods=["POST"])
-def ingredent2Recipe(): # ingredents
+def ingredent2Recipe():  # ingredents
     ingredents = request.json.get("ingredents")["contents"]
     str_ingredents = ""
-    
+
     for i in ingredents:
         str_ingredents += i + ", "
-    
+
     headers = {
-                "Content-Type": "application/json",
-                "Authorization": f"Bearer {api_key}",
-     }
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {api_key}",
+    }
 
     payload = {
         "model": "gpt-3.5-turbo",
@@ -105,7 +106,9 @@ def ingredent2Recipe(): # ingredents
                 "content": [
                     {
                         "type": "text",
-                        "text": "Given the ingredients: " + str_ingredents + '. Genereate a list of potential indian recipes, ingredients used, outstanding ingredient for the recipe as a JSON object similar to: {"title":"NAME", "ingredients":["ingrediant1", "ingrediant2", "ingrediant3"], "steps": ["step1", "step2", "step3"]}',
+                        "text": "Given the ingredients: "
+                        + str_ingredents
+                        + '. Genereate a list of potential indian recipes, ingredients used, outstanding ingredient for the recipe as a JSON object similar to: {"title":"NAME", "ingredients":["ingrediant1", "ingrediant2", "ingrediant3"], "steps": ["step1", "step2", "step3"]}',
                     }
                 ],
             }
@@ -116,7 +119,7 @@ def ingredent2Recipe(): # ingredents
     response = requests.post(
         "https://api.openai.com/v1/chat/completions", headers=headers, json=payload
     )
-    
+
     response_data = response.json()
     if (
         response_data
@@ -134,6 +137,7 @@ def ingredent2Recipe(): # ingredents
         return ingredients_json
     else:
         return "Error: Unable to extract ingredients"
+
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
