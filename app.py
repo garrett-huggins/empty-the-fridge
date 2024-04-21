@@ -21,23 +21,16 @@ def home():
     </form>
     """
 
-@app.route("/hello")
-def hello_world():
-    # This is the new endpoint that returns "Hello World"
-    return "Hello, World!"
-
 
 @app.route("/analyze", methods=["POST"])
 def analyze_image():
-    print("json: ")
-    #print(request.json)
-    if 'image' not in request.files:
-        print("debug11")
-    file = request.files['image']
-    if file.filename == '':
-        return 'No selected file'
+    if "image" not in request.files:
+        return "No file part"
+    file = request.files["image"]
+    if file.filename == "":
+        return "No selected file"
     if file:
-        base64_image = base64.b64encode(file.read()).decode('utf-8')
+        base64_image = base64.b64encode(file.read()).decode("utf-8")
 
         headers = {
             "Content-Type": "application/json",
@@ -52,7 +45,7 @@ def analyze_image():
                     "content": [
                         {
                             "type": "text",
-                            "text": "Can you return a list of ingredients in the fridge as JSON?",
+                            "text": '"Please analyze the image to identify the ingredients in the fridge and list them in JSON format similar to {"contents": ["ingredient1", "ingredient2", "ingredient3"]}. If you cannot idetify any ingredients, please return an empty JSON object. DO NOT include any other text in the response."',
                         },
                         {
                             "type": "image",
@@ -61,13 +54,15 @@ def analyze_image():
                     ],
                 }
             ],
-            "max_tokens": 300,
+            "max_tokens": 900,
         }
 
         response = requests.post(
             "https://api.openai.com/v1/chat/completions", headers=headers, json=payload
         )
         response_data = response.json()
+
+        # print("response data", response_data)
 
         # Extract the ingredients text from the response
         if (
@@ -80,6 +75,8 @@ def analyze_image():
             json_start = content_text.find("{")
             json_end = content_text.rfind("}") + 1
             ingredients_json = content_text[json_start:json_end]
+
+            print("ingredients", ingredients_json)
 
             return ingredients_json
         else:
