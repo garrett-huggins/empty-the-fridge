@@ -7,7 +7,7 @@ import json  # Import json for pretty printing
 app = Flask(__name__)
 
 # OpenAI API Key
-api_key = "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"
+api_key = ""
 
 
 # Function to encode the image
