@@ -2,9 +2,11 @@ from flask import Flask, request, render_template_string
 import base64
 import requests
 import json  # Import json for pretty printing
+from flask_cors import CORS
 
 
 app = Flask(__name__)
+CORS(app)
 
 # OpenAI API Key
 api_key = ""
@@ -134,4 +136,4 @@ def ingredent2Recipe(): # ingredents
         return "Error: Unable to extract ingredients"
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, port=5000)
