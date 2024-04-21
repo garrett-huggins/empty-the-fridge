@@ -23,7 +23,6 @@ def home():
     </form>
     """
 
-
 @app.route("/image2ingredient", methods=["POST"])
 def analyze_image():
     if "image" not in request.files:
