@@ -86,6 +86,9 @@ def analyze_image():
 
 @app.route("/ingredent2recipe", methods=["POST"])
 def ingredent2Recipe():  # ingredents
+    if request.json.get("ingredents") == "":
+        return "Nothing Given"
+    
     ingredents = request.json.get("ingredents")["contents"]
     str_ingredents = ""
 
@@ -107,7 +110,7 @@ def ingredent2Recipe():  # ingredents
                         "type": "text",
                         "text": "Given the ingredients: "
                         + str_ingredents
-                        + '. Genereate a list of potential indian recipes, ingredients used, outstanding ingredient for the recipe as a JSON object similar to: {"title":"NAME", "ingredients":["ingrediant1", "ingrediant2", "ingrediant3"], "steps": ["step1", "step2", "step3"]}',
+                        + '. Genereate a list of potential indian recipes, ingredients used, outstanding ingredient for the recipe as a JSON object similar to: {"content":[{"title":"NAME", "ingredients":["ingrediant1", "ingrediant2", "ingrediant3"], "steps": ["step1", "step2", "step3"]},{"title":"NAME", "ingredients":["ingrediant1", "ingrediant2", "ingrediant3"], "steps": ["step1", "step2", "step3"]}]}',
                     }
                 ],
             }
