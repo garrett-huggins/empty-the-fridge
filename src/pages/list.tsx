@@ -1,25 +1,28 @@
 import React from "react";
 import StepLoader from "../component/StepLoader";
 import Loading from "../component/Loading";
+import RecipeCard from "../component/RecipeCard";
+import { useRef } from "react";
 
-const API_URL = "https://622a-131-123-52-17.ngrok-free.app";
+const API_URL = "https://1f68-131-123-52-40.ngrok-free.app";
+
+interface Content {
+  title: string;
+  ingredients: string[];
+  steps: string[];
+}
 
 interface Response {
-  contents: string[];
+  content: Content[];
 }
 
 export default function List() {
   const [step, setStep] = React.useState<number>(0);
-
-  const handleNextStep = () => {
-    setStep(step + 1);
-  };
+  const submitButtonRef = useRef<HTMLButtonElement>(null);
 
   const [response, setResponse] = React.useState<Response>();
-  const [loading, setLoading] = React.useState(false);
 
   const handleFormSubmit = async (event: any) => {
-    setLoading(true); // Set loading state to true
     event.preventDefault(); // Prevent default form submission behavior
 
     let headers = new Headers();
@@ -38,16 +41,14 @@ export default function List() {
       }
       const responseData = await response.json(); // Parse response data as JSON
       console.log("Response data:", responseData);
-      handleNextStep();
       handleRecipeGenerate(responseData); // Call handleRecipeGenerate function with response data as argument
-      setLoading(false); // Set loading state to false
     } catch (error) {
       console.error("Error fetching data:", error);
-      setLoading(false); // Set loading state to false
     }
   };
 
   const handleRecipeGenerate = async (res: any) => {
+    setStep(2); // Set step state to 2
     try {
       const response = await fetch(`${API_URL}/ingredient2recipe`, {
         method: "POST",
@@ -62,15 +63,12 @@ export default function List() {
       const responseData = await response.json(); // Parse response data as JSON
       console.log("Response data:", responseData);
       setResponse(responseData); // Set response state with response data
-      handleNextStep();
+      setStep(3);
     } catch (error) {
       console.error("Error fetching data:", error);
+      setStep(3); // Set step state to 3
     }
   };
-
-  if (loading) {
-    return <p>Loading...</p>;
-  }
 
   return (
     <div>
@@ -83,7 +81,10 @@ export default function List() {
               Take a photo of your fridge
             </h1>
             <form
-              onSubmit={handleFormSubmit}
+              onSubmit={(event) => {
+                setStep(1);
+                handleFormSubmit(event);
+              }}
               className="flex flex-col justify-center items-center space-y-4"
             >
               <label htmlFor="icon-button-file">
@@ -97,33 +98,57 @@ export default function List() {
                   id="icon-button-file"
                   type="file"
                   capture="environment"
+                  onChange={() => submitButtonRef.current?.click()}
                 />
               </label>
               <button
+                ref={submitButtonRef}
                 type="submit"
-                className="inline-flex h-10 items-center justify-center rounded-md bg-gray-900 px-8 py-6 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50"
+                className="hidden h-10 items-center justify-center rounded-md bg-gray-900 px-8 py-6 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50"
               >
                 Submit
               </button>
             </form>
           </div>
         )}
-        {/* list ingredients */}
+        {/* analyzing ingredients */}
         {step === 1 && (
           <div className="mt-20">
             <Loading />
           </div>
         )}
-        {/* generate recipes */}
-        {step === 2 && response && (
+        {/* generating recipes */}
+        {step === 2 && (
+          <div className="mt-20">
+            <Loading />
+          </div>
+        )}
+        {/* recipes */}
+        {step === 3 && (
           <div>
-            <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
+            <h1 className="text-3xl px-4 font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
               Here are some recipes you can make
             </h1>
-            <ul>{JSON.stringify(response)}</ul>
+            <ul>
+              {response?.content.map((content) => (
+                <RecipeCard
+                  title={content.title}
+                  ingredients={content.ingredients}
+                  instructions={content.steps}
+                />
+              ))}
+            </ul>
           </div>
         )}
       </div>
     </div>
   );
 }
+
+// {response?.content.map((content) => (
+//   <RecipeCard
+//     title={content.title}
+//     ingredients={content.ingredients}
+//     instructions={content.steps}
+//   />
+// ))}

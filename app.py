@@ -23,6 +23,7 @@ def home():
     </form>
     """
 
+
 @app.route("/image2ingredient", methods=["POST"])
 def analyze_image():
     if "image" not in request.files:
@@ -66,7 +67,7 @@ def analyze_image():
         # print("response data", response_data)
 
         # Extract the ingredients text from the response
-        
+
         print(response_data)
         if (
             response_data
@@ -89,11 +90,11 @@ def analyze_image():
 def ingredent2Recipe():  # ingredients
     if request.json.get("ingredients") == "":
         return "Nothing Given"
-    
+
     ingredients = request.json.get("ingredients")["contents"]
     if ingredients is None:
         return ""
-    
+
     str_ingredents = ""
 
     for i in ingredients:

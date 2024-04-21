@@ -27,7 +27,7 @@ export default function StepLoader({ state }: param) {
         setText("Done!");
         break;
     }
-  }, []);
+  }, [state]);
 
   return (
     <div className="py-2 px-2">
