@@ -22,7 +22,7 @@ def home():
     """
 
 
-@app.route("/analyze", methods=["POST"])
+@app.route("/image2ingredient", methods=["POST"])
 def analyze_image():
     if "image" not in request.files:
         return "No file part"
@@ -82,6 +82,56 @@ def analyze_image():
         else:
             return "Error: Unable to extract ingredients"
 
+@app.route("/ingredent2recipe", methods=["POST"])
+def ingredent2Recipe(): # ingredents
+    ingredents = request.json.get("ingredents")["contents"]
+    str_ingredents = ""
+    
+    for i in ingredents:
+        str_ingredents += i + ", "
+    
+    headers = {
+                "Content-Type": "application/json",
+                "Authorization": f"Bearer {api_key}",
+     }
+
+    payload = {
+        "model": "gpt-3.5-turbo",
+        "messages": [
+            {
+                "role": "user",
+                "content": [
+                    {
+                        "type": "text",
+                        "text": "Given the ingredients: " + str_ingredents + '. Genereate a list of potential indian recipes, ingredients used, outstanding ingredient for the recipe as a JSON object similar to: {"title":"NAME", "ingredients":["ingrediant1", "ingrediant2", "ingrediant3"], "steps": ["step1", "step2", "step3"]}',
+                    }
+                ],
+            }
+        ],
+        "max_tokens": 900,
+    }
+
+    response = requests.post(
+        "https://api.openai.com/v1/chat/completions", headers=headers, json=payload
+    )
+    
+    response_data = response.json()
+    if (
+        response_data
+        and "choices" in response_data
+        and len(response_data["choices"]) > 0
+    ):
+        content_text = response_data["choices"][0]["message"]["content"]
+        # Extract the JSON string from the content
+        json_start = content_text.find("{")
+        json_end = content_text.rfind("}") + 1
+        ingredients_json = content_text[json_start:json_end]
+
+        print("ingredients", ingredients_json)
+
+        return ingredients_json
+    else:
+        return "Error: Unable to extract ingredients"
 
 if __name__ == "__main__":
     app.run(debug=True)
