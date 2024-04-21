@@ -84,15 +84,15 @@ def analyze_image():
             return "Error: Unable to extract ingredients"
 
 
-@app.route("/ingredent2recipe", methods=["POST"])
+@app.route("/ingredient2recipe", methods=["POST"])
 def ingredent2Recipe():  # ingredents
-    if request.json.get("ingredents") == "":
+    if request.json.get("ingredients") == "":
         return "Nothing Given"
     
-    ingredents = request.json.get("ingredents")["contents"]
+    ingredients = request.json.get("ingredients")["contents"]
     str_ingredents = ""
 
-    for i in ingredents:
+    for i in ingredients:
         str_ingredents += i + ", "
 
     headers = {
