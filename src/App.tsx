@@ -2,15 +2,22 @@ import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
 
+const API_URL = "https://8347-131-123-52-40.ngrok-free.app";
+
 function App() {
   const [response, setResponse] = React.useState();
 
   const handleFormSubmit = async (event: any) => {
     event.preventDefault(); // Prevent default form submission behavior
 
+    let headers = new Headers();
+
+    headers.append("Access-Control-Allow-Origin", API_URL);
+    headers.append("Access-Control-Allow-Credentials", "true");
+
     const formData = new FormData(event.target); // Get form data
     try {
-      const response = await fetch("http://0.0.0.0:5000/analyze", {
+      const response = await fetch(`${API_URL}/analyze`, {
         method: "POST",
         body: formData,
       });
