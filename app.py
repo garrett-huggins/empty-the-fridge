@@ -23,7 +23,6 @@ def home():
     </form>
     """
 
-
 @app.route("/image2ingredient", methods=["POST"])
 def analyze_image():
     if "image" not in request.files:
@@ -64,9 +63,11 @@ def analyze_image():
         )
         response_data = response.json()
 
-        print("response data", response_data)
+        # print("response data", response_data)
 
         # Extract the ingredients text from the response
+        
+        print(response_data)
         if (
             response_data
             and "choices" in response_data
@@ -79,15 +80,17 @@ def analyze_image():
             ingredients_json = content_text[json_start:json_end]
 
             print("ingredients", ingredients_json)
-
+            print(ingredent2Recipe)
             return ingredients_json
         else:
             return "Error: Unable to extract ingredients"
 
 
 @app.route("/ingredient2recipe", methods=["POST"])
-def ingredent2Recipe():  # ingredents
-    print(request.json.get("ingredients")["contents"])
+def ingredent2Recipe():  # ingredients
+    if request.json.get("ingredients") == "":
+        return "Nothing Given"
+    
     ingredients = request.json.get("ingredients")["contents"]
     str_ingredents = ""
 
@@ -128,17 +131,18 @@ def ingredent2Recipe():  # ingredents
         and len(response_data["choices"]) > 0
     ):
         content_text = response_data["choices"][0]["message"]["content"]
+        print("content_text")
         # Extract the JSON string from the content
         json_start = content_text.find("{")
         json_end = content_text.rfind("}") + 1
-        recipe_json = content_text[json_start:json_end]
+        ingredients_json = content_text[json_start:json_end]
 
-        print("ingredients", recipe_json)
+        print("ingredients", ingredients_json)
 
-        return recipe_json
+        return ingredients_json
     else:
         return "Error: Unable to extract ingredients"
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=8080)
+    app.run(debug=True, port=5000)
