@@ -1,4 +1,3 @@
-import React from "react";
 import frigeImage from "../images/fridge.jpg";
 import ingredientsImage from "../images/ingredients.jpg";
 import { Link } from "react-router-dom";
@@ -131,25 +130,4 @@ export default function Home() {
       </main>
     </div>
   );
-}
-
-{
-  /* <div className="container px-4 pt-10">
-      <h1 className="text-center font-semibold text-2xl sm:text-5xl">
-        Welcome to Empty The Fridge
-      </h1>
-      <form onSubmit={handleFormSubmit}>
-        <input
-          name="image"
-          accept="image/*"
-          id="icon-button-file"
-          type="file"
-          capture="environment"
-        />
-        <label htmlFor="icon-button-file">
-          <button type="submit">Upload Image</button>
-        </label>
-      </form>
-      <p>{JSON.stringify(response)}</p>
-    </div> */
 }
