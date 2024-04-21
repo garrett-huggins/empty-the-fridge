@@ -80,7 +80,6 @@ def analyze_image():
             ingredients_json = content_text[json_start:json_end]
 
             print("ingredients", ingredients_json)
-            print(ingredent2Recipe)
             return ingredients_json
         else:
             return "Error: Unable to extract ingredients"
@@ -92,6 +91,9 @@ def ingredent2Recipe():  # ingredients
         return "Nothing Given"
     
     ingredients = request.json.get("ingredients")["contents"]
+    if ingredients is None:
+        return ""
+    
     str_ingredents = ""
 
     for i in ingredients:
@@ -112,7 +114,7 @@ def ingredent2Recipe():  # ingredients
                         "type": "text",
                         "text": "Given the ingredients: "
                         + str_ingredents
-                        + '. Genereate a list of potential indian recipes, ingredients used, outstanding ingredient for the recipe as a JSON object similar to: {"content":[{"title":"NAME", "ingredients":["ingrediant1", "ingrediant2", "ingrediant3"], "steps": ["step1", "step2", "step3"]},{"title":"NAME", "ingredients":["ingrediant1", "ingrediant2", "ingrediant3"], "steps": ["step1", "step2", "step3"]}]}',
+                        + '. Genereate a list of recipes, ingredients used, outstanding ingredient for the recipe as a JSON object similar to: {"content":[{"title":"NAME", "ingredients":["ingrediant1", "ingrediant2", "ingrediant3"], "steps": ["step1", "step2", "step3"]},{"title":"NAME", "ingredients":["ingrediant1", "ingrediant2", "ingrediant3"], "steps": ["step1", "step2", "step3"]}]}',
                     }
                 ],
             }
@@ -138,8 +140,8 @@ def ingredent2Recipe():  # ingredients
         ingredients_json = content_text[json_start:json_end]
 
         print("ingredients", ingredients_json)
-
-        return ingredients_json
+        test = ingredients_json
+        return test
     else:
         return "Error: Unable to extract ingredients"
 
