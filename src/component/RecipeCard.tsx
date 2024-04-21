@@ -8,8 +8,8 @@ interface params {
 
 function RecipeCard({ title, ingredients, instructions }: params) {
   return (
-    <div className="w-full flex justify-center">
-      <div className="block max-w-sm w-72 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 px-6 py-8 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+    <div className="w-full flex justify-center mt-6">
+      <div className="block max-w-sm w-72 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 ">
         <h5 className="mb-2 text-3xl font-bold tracking-tight text-gray-900 dark:text-white ">
           {title}
         </h5>

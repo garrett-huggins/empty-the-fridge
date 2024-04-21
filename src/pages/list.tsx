@@ -1,7 +1,6 @@
 import React from "react";
 import StepLoader from "../component/StepLoader";
 import Loading from "../component/Loading";
-import RecipeCard from "../component/RecipeCard";
 
 const API_URL = "https://622a-131-123-52-17.ngrok-free.app";
 
@@ -107,11 +106,6 @@ export default function List() {
                 Submit
               </button>
             </form>
-            <RecipeCard
-              title="test"
-              ingredients={["test1", "test2", "test3"]}
-              instructions={["test1", "test2", "test3"]}
-            />
           </div>
         )}
         {/* list ingredients */}
