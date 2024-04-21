@@ -2,7 +2,7 @@ import React from "react";
 import StepLoader from "../component/StepLoader";
 import Loading from "../component/Loading";
 
-const API_URL = "https://af57-131-123-52-40.ngrok-free.app";
+const API_URL = "https://b72e-131-123-52-40.ngrok-free.app";
 
 interface Response {
   contents: string[];
@@ -49,9 +49,9 @@ export default function List() {
 
   const handleRecipeGenerate = async (res: any) => {
     try {
-      const response = await fetch(`${API_URL}/ingredent2recipe`, {
+      const response = await fetch(`${API_URL}/ingredient2recipe`, {
         method: "POST",
-        body: JSON.stringify(res),
+        body: JSON.stringify({ ingredients: res }),
         headers: {
           "Content-Type": "application/json",
         },

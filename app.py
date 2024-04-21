@@ -64,7 +64,7 @@ def analyze_image():
         )
         response_data = response.json()
 
-        # print("response data", response_data)
+        print("response data", response_data)
 
         # Extract the ingredients text from the response
         if (
@@ -87,9 +87,7 @@ def analyze_image():
 
 @app.route("/ingredient2recipe", methods=["POST"])
 def ingredent2Recipe():  # ingredents
-    if request.json.get("ingredients") == "":
-        return "Nothing Given"
-
+    print(request.json.get("ingredients")["contents"])
     ingredients = request.json.get("ingredients")["contents"]
     str_ingredents = ""
 
@@ -133,14 +131,14 @@ def ingredent2Recipe():  # ingredents
         # Extract the JSON string from the content
         json_start = content_text.find("{")
         json_end = content_text.rfind("}") + 1
-        ingredients_json = content_text[json_start:json_end]
+        recipe_json = content_text[json_start:json_end]
 
-        print("ingredients", ingredients_json)
+        print("ingredients", recipe_json)
 
-        return ingredients_json
+        return recipe_json
     else:
         return "Error: Unable to extract ingredients"
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5000)
+    app.run(debug=True, port=8080)
