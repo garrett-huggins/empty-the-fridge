@@ -4,7 +4,7 @@ import Loading from "../component/Loading";
 import RecipeCard from "../component/RecipeCard";
 import { useRef } from "react";
 
-const API_URL = "https://1f68-131-123-52-40.ngrok-free.app";
+const API_URL = "https://f5dc-150-134-245-2.ngrok-free.app";
 
 interface Content {
   title: string;

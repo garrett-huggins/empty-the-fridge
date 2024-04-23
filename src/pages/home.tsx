@@ -2,6 +2,8 @@ import frigeImage from "../images/fridge.jpg";
 import ingredientsImage from "../images/ingredients.jpg";
 import { Link } from "react-router-dom";
 
+const docs_url = "https://1414-131-123-52-152.ngrok-free.app/recipe";
+
 export default function Home() {
   return (
     <div className="flex flex-col min-h-[100dvh] scroll-smooth">
@@ -125,6 +127,16 @@ export default function Home() {
                 </ul>
               </div>
             </div>
+          </div>
+          <div className="w-full justify-center flex">
+            <a
+              className="inline-flex h-10 items-center justify-center rounded-md bg-gray-900 px-8 py-6 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50"
+              href={docs_url}
+              target="_blank"
+              rel="noreferrer"
+            >
+              View Our Docs
+            </a>
           </div>
         </section>
       </main>
