@@ -1,8 +1,35 @@
+# Empty The Fridge
+
+1st place project for Kent Hack Enough 2024
+
+<br>
+
+## Details
+
+### Flask APi
+
 Install packages using the following command:
+
+```bash
 pip install -r requirements.txt
+```
 
-Go to the other repo provided in devpost to run and run it on ngrok.
-Update the ngrok link in this repo.
+- Run `app.py`
+- Use Ngrok `ngrok http 8000` to get a public URL
+- Update the `API_URL` in the React PWA
 
-Then, run this repo with the following command 
-npm run start
+### React PWA
+
+Install packages using the following command:
+
+```bash
+npm install
+```
+
+- Run `npm start`
+
+### Extras
+
+The `View Docs` button in the React PWA will take you to the `customizerecipe` repo which contains the documentation and extra features for the project that we weren't able to implement in time.
+
+View the project [here](https://github.com/hlee18lee46/customizerecipe)
